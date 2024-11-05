@@ -1,0 +1,185 @@
+
+DEF$CICS
+
+
+ BROWSE    CICS.CLONE.LYB(DEF$CICS) - 01.26         Line 0000000000 Col 001
+ Command ===>                                                  Scroll ===> 
+********************************* Top of Data *****************************
+//DEF$CICS    JOB    NOTIFY=&SYSUID,REGION=0M                              
+//*                                                                        
+//*   /*JOBPARM   S=S0W1                                                   
+//*                                                                        
+//*==================================================================*     
+//*  Create  los  Files  de  soporte  p/Cics-P:                      *     
+//*                                                                  *     
+//*  -CICS0001-   -CICS0002-  -CICS0003-                             *     
+//*                                                                  *     
+//*==================================================================*     
+//*                                                                        
+//*                                                                        
+//*------------------------------------------------------------------*     
+//*                                                                        
+//       EXPORT  SYMLIST=(LPAR,VERSION,CICS,DISCO)                         
+//*                                                                        
+//       SET     LPAR=S0W1                                                 
+//       SET     VERSION=560                                              
+//       SET     CICS=CICS0001                                            
+//       SET     DISCO=B5USR1                                             
+//*                                                                       
+//*------------------------------------------------------------------*    
+//*                                                                       
+//*                                                                       
+//*------------------------------------------------------------------*    
+//*  Delete existing CICS data sets for rerun                             
+//*------------------------------------------------------------------*    
+//DELETES     EXEC  PGM=IDCAMS                                            
+//SYSPRINT  DD SYSOUT=*                                                   
+//SYSIN     DD *,SYMBOLS=JCLONLY                                          
+                                                                          
+ /*-------------------------------------------*/                          
+ DELETE  CICS.&LPAR..V&VERSION..&CICS..DFHAUXT NONVSAM                    
+ DELETE  CICS.&LPAR..V&VERSION..&CICS..DFHBUXT NONVSAM                    
+ DELETE  CICS.&LPAR..V&VERSION..&CICS..DFHBUXT NONVSAM               
+ DELETE  CICS.&LPAR..V&VERSION..&CICS..DFHDMPA NONVSAM               
+ DELETE  CICS.&LPAR..V&VERSION..&CICS..DFHDMPB NONVSAM               
+ DELETE  CICS.&LPAR..V&VERSION..&CICS..DFHTEMP                       
+ DELETE  CICS.&LPAR..V&VERSION..&CICS..DFHINTRA                      
+ DELETE  CICS.&LPAR..V&VERSION..&CICS..DFHLCD                        
+ DELETE  CICS.&LPAR..V&VERSION..&CICS..DFHGCD                        
+ DELETE  CICS.&LPAR..V&VERSION..&CICS..DFHLRQ                        
+ DELETE  CICS.&LPAR..V&VERSION..&CICS..EQADPFMB                      
+ /*-------------------------------------------*/                     
+                                                                     
+                                                                     
+ SET     MAXCC=0                                                     
+                                                                     
+/*                                                                   
+//*                                                                  
+//*                                                                  
+//*   
+//*                                                                       
+//*                                                                       
+//*                                                                       
+//*------------------------------------------------------------------*    
+//*  Allocate CICS:   Trace Data Sets  DFHAUXT / DFHBUXT                  
+//*                   Dump Data Sets   DFHDMPA / DFHDMPB                  
+//*------------------------------------------------------------------*    
+//DEF$SEQS    EXEC  PGM=IEFBR14                                           
+//*                                                                       
+//DD1       DD DISP=(,CATLG),DSN=CICS.&LPAR..V&VERSION..&CICS..DFHAUXT,   
+//             RECFM=F,LRECL=4096,SPACE=(CYL,(05))                        
+//DD2       DD DISP=(,CATLG),DSN=CICS.&LPAR..V&VERSION..&CICS..DFHBUXT,   
+//             RECFM=F,LRECL=4096,SPACE=(CYL,(05))                        
+//*                                                                       
+//DD3       DD DISP=(,CATLG),DSN=CICS.&LPAR..V&VERSION..&CICS..DFHDMPA,   
+//             RECFM=VB,LRECL=4092,BLKSIZE=4096,SPACE=(CYL,(05))          
+//DD4       DD DISP=(,CATLG),DSN=CICS.&LPAR..V&VERSION..&CICS..DFHDMPB,   
+//             RECFM=VB,LRECL=4092,BLKSIZE=4096,SPACE=(CYL,(05))          
+//             RECFM=VB,LRECL=4092,BLKSIZE=4096,SPACE=(CYL,(05))         
+//*------------------------------------------------------------------*   
+//* Allocates  Vsam  files.                                              
+//*------------------------------------------------------------------*   
+//DEFS        EXEC  PGM=IDCAMS                                           
+//SYSPRINT  DD SYSOUT=*                                                  
+//SYSIN     DD *,SYMBOLS=JCLONLY                                         
+                                                                         
+ /*---------------------------------------------*/                       
+ /*  Def.  -TS-                                 */                       
+ /*---------------------------------------------*/                       
+ DEFINE  CLUSTER                             -                           
+          (NAME(CICS.&LPAR..V&VERSION..&CICS..DFHTEMP) -                 
+           VOLUME(&DISCO)                    -                           
+           NONINDEXED                        -                           
+           CONTROLINTERVALSIZE(4096)         -                           
+           RECORDSIZE(4089,4089)             -                           
+           SHAREOPTION(2 3))                 -                           
+           SHAREOPTION(2 3))                 -                           
+           DATA(CYL(05  05))                                             
+                                                                         
+ /*---------------------------------------------*/                       
+ /*  Def.  -TD-                                 */                       
+ /*---------------------------------------------*/                       
+ DEFINE  CLUSTER                              -                          
+          (NAME(CICS.&LPAR..V&VERSION..&CICS..DFHINTRA) -                
+           VOLUME(&DISCO)                     -                          
+           NONINDEXED                         -                          
+           CONTROLINTERVALSIZE(4096)          -                          
+           RECORDSIZE(4089,4089)              -                          
+           SHAREOPTION(2 3))                  -                          
+           DATA(CYL(03  01))                                             
+                                                                         
+ /*---------------------------------------------*/                       
+ /*  Def.  Local-Catalog                        */                       
+ /*---------------------------------------------*/                       
+ DEFINE CLUSTER                              -                        
+          (NAME(CICS.&LPAR..V&VERSION..&CICS..DFHLCD) -               
+           VOLUME(&DISCO)                    -                        
+           INDEXED                           -                        
+           REUSE                             -                        
+           FREESPACE(10 10)                  -                        
+           SHAREOPTION(2))                   -                        
+           DATA(KEYS(52 0)                   -                        
+                RECORDSIZE(70 2041)          -                        
+                CONTROLINTERVALSIZE(2048)    -                        
+                CYL(03  01))                 -                        
+           INDEX(CYL(01  01)                                          
+                                                                      
+ /*---------------------------------------------*/                    
+ /*  Def.  Global-Catalog                       */                    
+ /*---------------------------------------------*/                    
+ DEFINE CLUSTER                              -                        
+          (NAME(CICS.&LPAR..V&VERSION..&CICS..DFHGCD) -                   
+           VOLUME(&DISCO)                    -                            
+           INDEXED                           -                            
+           FREESPACE(10 10)                  -                            
+           REUSE                             -                            
+           SHAREOPTIONS(2))                  -                            
+           DATA(CYL(03  01)                  -                            
+                KEYS(52 0)                   -                            
+                RECORDSIZE(4089,32760)       -                            
+                CONTROLINTERVALSIZE(32768))  -                            
+          INDEX(CYL(01  01))                                              
+                                                                          
+ /*---------------------------------------------*/                        
+ /*  Def.  Local-Request-Queue                  */                        
+ /*---------------------------------------------*/                        
+ DEFINE  CLUSTER                            -                             
+          (NAME(CICS.&LPAR..V&VERSION..&CICS..DFHLRQ) -                   
+          (NAME(CICS.&LPAR..V&VERSION..&CICS..DFHLRQ) -                    
+           INDEXED                          -                              
+           LOG(UNDO)                        -                              
+           VOLUME(&DISCO)                   -                              
+           RECORDSIZE(2232  2400 )          -                              
+           KEYS(40  00)                     -                              
+           FREESPACE(0  10)                 -                              
+           SHAREOPTIONS(2  3))              -                              
+           DATA(CYL(03  01)                 -                              
+                CISZ(2560))                 -                              
+           INDEX(CYL(01  01))                                              
+                                                                           
+/*                                                                         
+//*------------------------------------------------------------------*     
+//*  Initialize CICS Local Catalog                                         
+//*------------------------------------------------------------------*     
+//INITLCD     EXEC  PGM=DFHCCUTL                                           
+//STEPLIB   DD DISP=SHR,DSN=DFH560.CICS.SDFHLOAD                           
+//STEPLIB   DD DISP=SHR,DSN=DFH560.CICS.SDFHLOAD                          
+//SYSPRINT  DD SYSOUT=*                                                   
+//DFHLCD    DD DISP=SHR,DSN=CICS.&LPAR..V&VERSION..&CICS..DFHLCD          
+//*------------------------------------------------------------------*    
+//*  Initialize CICS Global Catalog                                       
+//*------------------------------------------------------------------*    
+//INITGCD     EXEC  PGM=DFHRMUTL                                          
+//STEPLIB   DD DISP=SHR,DSN=DFH560.CICS.SDFHLOAD                          
+//SYSPRINT  DD SYSOUT=*                                                   
+//DFHGCD    DD DISP=SHR,DSN=CICS.&LPAR..V&VERSION..&CICS..DFHGCD          
+//SYSIN     DD *                                                          
+ SET_AUTO_START=AUTOINIT                                                  
+/*                                                                        
+//*------------------------------------------------------------------*    
+//*                        ---  FIN  ---                             *    
+//*------------------------------------------------------------------*    
+******************************** Bottom of Data **************************
+
+
+                                                               

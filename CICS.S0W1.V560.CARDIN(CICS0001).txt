@@ -1,0 +1,32 @@
+
+CICS.S0W1.V560.CARDIN(CICS0001) 
+
+
+ BROWSE    CICS.S0W1.V560.CARDIN(CICS0001) - 01.01  Line 0000000000 C
+ Command ===>                                                  Scroll
+********************************* Top of Data ***********************
+CWTO  '\                                                             
+CWTO  -Comienzo de Cmds  Cics  por Term-Seq.-\                       
+CWTO  '\                                                             
+CEMT  SET  SYDUMPCODE(*)       REM\                                  
+CEMT  SET  SYDUMPCODE(AP0001)  ADD  SYSDUMP  MAX(01)\                
+CEMT  SET  SYDUMPCODE(MT0001)  ADD  SYSDUMP  MAX(10)   RELATED\      
+CEMT  SET  SYDUMPCODE(SM0102)  ADD  SYSDUMP  MAX(01)\                
+CEMT  SET  SYDUMPCODE(SM0131)  ADD  SYSDUMP  MAX(01)\                
+CEMT  SET  SYDUMPCODE(SM0133)  ADD  SYSDUMP  MAX(01)\                
+CEMT  SET  SYDUMPCODE(SR0001)  ADD  NOSYSDUMP\                       
+CWTO  '\                                                             
+CEMT  SET  DUMP         SWITCH\                                      
+CEMT  SET  DUMP         SWITCH\                                      
+CEMT  SET  TRD(*)       REM\                                         
+CEMT  SET  TRD(AICA)    ADD  TRANDUMP     MAX(01)\                   
+CEMT  SET  TRD(ATNI)    ADD  NOTRANDUMP\  
+CEMT  SET  TRD(ATNI)    ADD  NOTRANDUMP\                       
+CWTO  '\                                                       
+CWTO  -Fin      de Cmds  Cics  por Term-Seq.-\                 
+CWTO  '\                                                       
+******************************** Bottom of Data ***************
+                     
+
+
+                                                                     

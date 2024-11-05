@@ -1,0 +1,66 @@
+
+
+
+
+ERRORES EN MSGUR  CICS0003
+
+
+
+ERRORES EN CICS0001
+
+
+
+
+
+DFHZC2410 E 12/25/2023 13:54:38 CICS0003 L702 CEDA Node Unrecoverable. VTAM LOLOSTERM Error Code X'0C'.  VTAM RETURN CODE 1007 ((2) 
+                                                   
+DFHZC2408 E 12/25/2023 13:54:38 CICS0003 L702 CEDA Apparent VTAM Error.  ((3)) Module name: DFHZSYX) 
+
+
+ 
+ the VSAM catalog. VSAM has returned code 0014 in R15.                          
+******************************** BOTTOM OF DATA ********************************
+COMMAND INPUT ===>                                            SCROLL ===> CSR  
+DFHFC0205 01/02/2024 20:22:06 CICS0001  CICSUSER CPLT SHRCTL block for LSR pool
+DFHFC0961 01/02/2024 20:22:06 CICS0001 Calculation of LSR pool 1 parameters inc
+DFHFC0979 01/02/2024 20:22:06 CICS0001 LSR pool 1 parameters incomplete for fil
+           resource definition could not be found on the VSAM catalog. VSAM has
+EZY1220E 01/02/24 20:22:06 READ FAILURE ON CONFIGURATION FILE, PHASE= C1 EIBRES
+DFHFC0201 01/02/2024 20:22:06 CICS0001 Non-RLS file EZACONFG has been deallocat
+DFHSI8431I 01/02/2024 20:22:06 CICS0001 PLT program EZACIC20 has been invoked d
+DFHSI8431I 01/02/2024 20:22:06 CICS0001 PLT program EQA0CPLT has been invoked d
+DFHAP1901 01/02/2024 20:22:06 CICS0001 SPI audit log is available.             
+DFHLD0555 I 01/02/2024 20:22:06 CICS0001 Current LIBRARY search order follows. 
+DFHLD0556 I 01/02/2024 20:22:06 CICS0001 Position in search order: 1, LIBRARY: 
+DFHWB1560 01/02/2024 20:22:06 CICS0001 CICSUSER URIMAP DFHJXSU has been created
+DFHFC0200 01/02/2024 20:22:08 CICS0001 Non-RLS file EZACONFG has been allocated
+DFHFC0961 01/02/2024 20:22:08 CICS0001 Calculation of LSR pool 1 parameters inc
+DFHFC0979 01/02/2024 20:22:08 CICS0001 LSR pool 1 parameters incomplete for fil
+           resource definition could not be found on the VSAM catalog. VSAM has
+******************************* BOTTOM OF DATA ********************************
+
+
+
+ SDSF OUTPUT DISPLAY CICS0001 STC00323  DSID   111 LINE 1,062   COLUMNS 54- 133 
+ COMMAND INPUT ===>                                            SCROLL ===> CSR  
+T SHRCTL block for LSR pool 1 has been updated.                                 
+f LSR pool 1 parameters incomplete. Filename DFHDBFK has no DSNAME.             
+rameters incomplete for file EZACACHE because the DSNAME specified in the       
+ the VSAM catalog. VSAM has returned code 0014 in R15.                          
+TION FILE, PHASE= C1 EIBRESP2=      80                                          
+EZACONFG has been deallocated. Module DFHFCN.                                   
+EZACIC20 has been invoked during the third stage of initialization.             
+EQA0CPLT has been invoked during the third stage of initialization.             
+ is available.                                                                  
+RARY search order follows.                                                      
+ search order: 1, LIBRARY: DFHRPL.                                              
+AP DFHJXSU has been created.                                                    
+EZACONFG has been allocated to data set DFH560.TCP.CONFIG. Module DFHFCN.       
+f LSR pool 1 parameters incomplete. Filename DFHDBFK has no DSNAME.             
+rameters incomplete for file EZACACHE because the DSNAME specified in the       
+ the VSAM catalog. VSAM has returned code 0014 in R15.                          
+******************************** BOTTOM OF DATA ********************************
+
+
+
+

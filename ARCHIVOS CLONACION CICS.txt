@@ -1,0 +1,529 @@
+ARCHIVOS CLONACION CICS
+
+
+
+
+
+
+DSLIST - Data Sets Matching CICS                           0 Members processed
+Command ===>                                                  Scroll ===> PAGE
+                                                                              
+Command - Enter "/" to select action                  Message           Volume
+------------------------------------------------------------------------------
+         CICS                                                           *ALIAS
+         CICS.CLONE.LYB                               Browsed           B5USR1
+         CICS.CLONE.LYB.ORIG                                            B5USR1
+         CICS.S0W1.V560.CARDIN                                          B5USR1
+         CICS.S0W1.V560.CICS0001.DFHAUXT                                B5USR1
+         CICS.S0W1.V560.CICS0001.DFHBUXT                                B5USR1
+         CICS.S0W1.V560.CICS0001.DFHDMPA                                B5USR1
+         CICS.S0W1.V560.CICS0001.DFHDMPB                                B5USR1
+         CICS.S0W1.V560.CICS0001.DFHGCD                                 *VSAM*
+         CICS.S0W1.V560.CICS0001.DFHGCD.DATA                            B5USR1
+         CICS.S0W1.V560.CICS0001.DFHGCD.INDEX                           B5USR1
+
+
++++++++++++++++++++++++++++
+
+
+
+BROWSE            CICS.CLONE.LYB                        Row 0000001 of 0000006 
+Command ===>                                                  Scroll ===> PAGE 
+           Name     Prompt       Size   Created          Changed          ID   
+_________ CLON$CIC                 32  2023/12/05  2023/12/05 12:03:49  IBMUSER
+_________ CLON$CSD                 39  2023/12/02  2023/12/05 11:55:00  IBMUSER
+_________ CLON$EQA                 32  2023/12/05  2023/12/06 22:10:04  FASTORG
+_________ DEF$CICS                168  2020/10/05  2023/12/10 18:58:07  ESLLUDG
+_________ DEF$CSD                  97  2020/07/01  2023/12/06 10:26:39  IBMUSER
+_________ TEST0001                 59  2019/06/10  2023/12/07 15:12:44  FASTORG
+          **End**                                                              
+
+
+++++++++++++++++++++++++++++
+
+
+
+VIEW       CICS.CLONE.LYB(DEF$CICS) - 01.24                Columns 00001 00072 
+Command ===>                                                  Scroll ===> CSR  
+****** ***************************** Top of Data ******************************
+000001 //DEF$CICS    JOB    NOTIFY=&SYSUID,REGION=0M                           
+000002 //*                                                                     
+000003 //*   /*JOBPARM   S=S0W1                                                
+000004 //*                                                                     
+000005 //*==================================================================*  
+000006 //*  Create  los  Files  de  soporte  p/Cics-P:                      *  
+000007 //*                                                                  *  
+000008 //*  -CICS0001-   -CICS0002-  -CICS0003-                             *  
+000009 //*                                                                  *  
+000010 //*==================================================================*  
+000011 //*                                                                     
+000012 //*                                                                     
+000013 //*------------------------------------------------------------------*  
+000012 //*                                                                    
+000013 //*------------------------------------------------------------------* 
+000014 //*                                                                    
+000015 //       EXPORT  SYMLIST=(LPAR,VERSION,CICS,DISCO)                     
+000016 //*                                                                    
+000017 //       SET     LPAR=S0W1                                             
+000018 //       SET     VERSION=560                                           
+000019 //       SET     CICS=CICS0001                                         
+000020 //       SET     DISCO=B5USR1                                          
+000021 //*                                                                    
+000022 //*------------------------------------------------------------------* 
+000023 //*                                                                    
+000024 //*   
+000025 //*------------------------------------------------------------------* 
+000026 //*  Delete existing CICS data sets for rerun                          
+000027 //*------------------------------------------------------------------* 
+000028 //DELETES     EXEC  PGM=IDCAMS                                         
+000029 //SYSPRINT  DD SYSOUT=*                                                
+000030 //SYSIN     DD *,SYMBOLS=JCLONLY                                       
+000031                                                                        
+000032  /*-------------------------------------------*/                       
+000033  DELETE  CICS.&LPAR..V&VERSION..&CICS..DFHAUXT NONVSAM                 
+000034  DELETE  CICS.&LPAR..V&VERSION..&CICS..DFHBUXT NONVSAM                 
+000035  DELETE  CICS.&LPAR..V&VERSION..&CICS..DFHDMPA NONVSAM                 
+000036  DELETE  CICS.&LPAR..V&VERSION..&CICS..DFHDMPB NONVSAM                 
+000037  DELETE  CICS.&LPAR..V&VERSION..&CICS..DFHTEMP                         
+000038  DELETE  CICS.&LPAR..V&VERSION..&CICS..DFHINTRA                        
+000034  DELETE  CICS.&LPAR..V&VERSION..&CICS..DFHBUXT NONVSAM                
+000035  DELETE  CICS.&LPAR..V&VERSION..&CICS..DFHDMPA NONVSAM                
+000036  DELETE  CICS.&LPAR..V&VERSION..&CICS..DFHDMPB NONVSAM                
+000037  DELETE  CICS.&LPAR..V&VERSION..&CICS..DFHTEMP                        
+000038  DELETE  CICS.&LPAR..V&VERSION..&CICS..DFHINTRA                       
+000039  DELETE  CICS.&LPAR..V&VERSION..&CICS..DFHLCD                         
+000040  DELETE  CICS.&LPAR..V&VERSION..&CICS..DFHGCD                         
+000041  DELETE  CICS.&LPAR..V&VERSION..&CICS..DFHLRQ                         
+000042  DELETE  CICS.&LPAR..V&VERSION..&CICS..EQADPFMB                       
+000043  /*-------------------------------------------*/                      
+000044 //                                                                    
+000045                                                                       
+000046  SET     MAXCC=0                                                      
+000047                                                                       
+000048 /*                                                                      
+000049 //*                                                                     
+000050 //*                                                                     
+000051 //*                                                                     
+000052 //*                                                                     
+000053 //*                                                                     
+000054 //*------------------------------------------------------------------*  
+000055 //*  Allocate CICS:   Trace Data Sets  DFHAUXT / DFHBUXT                
+000056 //*                   Dump Data Sets   DFHDMPA / DFHDMPB                
+000057 //*------------------------------------------------------------------*  
+000058 //DEF$SEQS    EXEC  PGM=IEFBR14                                         
+000059 //*                                                                     
+000060 //DD1       DD DISP=(,CATLG),DSN=CICS.&LPAR..V&VERSION..&CICS..DFHAUXT, 
+000061 //             RECFM=F,LRECL=4096,SPACE=(CYL,(05))                     
+000062 //DD2       DD DISP=(,CATLG),DSN=CICS.&LPAR..V&VERSION..&CICS..DFHBUXT,
+000063 //             RECFM=F,LRECL=4096,SPACE=(CYL,(05))                     
+000064 //*                                                                    
+000065 //DD3       DD DISP=(,CATLG),DSN=CICS.&LPAR..V&VERSION..&CICS..DFHDMPA,
+000066 //             RECFM=VB,LRECL=4092,BLKSIZE=4096,SPACE=(CYL,(05))       
+000067 //DD4       DD DISP=(,CATLG),DSN=CICS.&LPAR..V&VERSION..&CICS..DFHDMPB,
+000068 //             RECFM=VB,LRECL=4092,BLKSIZE=4096,SPACE=(CYL,(05))       
+000069 //*------------------------------------------------------------------* 
+000070 //* Allocates  Vsam  files.                                            
+000071 //*------------------------------------------------------------------* 
+000072 //DEFS        EXEC  PGM=IDCAMS                                         
+000073 //SYSPRINT  DD SYSOUT=*                                                
+000074 //SYSIN     DD *,SYMBOLS=JCLONLY                                       
+000075                                                                        
+000076  /*---------------------------------------------*/                     
+000077  /*  Def.  -TS-                                 */                     
+000078  /*---------------------------------------------*/                     
+000079  DEFINE  CLUSTER                             -                         
+000080           (NAME(CICS.&LPAR..V&VERSION..&CICS..DFHTEMP) -               
+000081            VOLUME(&DISCO)                    -                         
+000082            NONINDEXED                        -                         
+000083            CONTROLINTERVALSIZE(4096)         -                         
+000084            RECORDSIZE(4089,4089)             -                         
+000085            SHAREOPTION(2 3))                 -                         
+000086            DATA(CYL(05  05))                                           
+000087                                                                        
+000088  /*---------------------------------------------*/                     
+000089  /*  Def.  -TD-                                 */                     
+000090  /*---------------------------------------------*/                     
+000091  DEFINE  CLUSTER                              -                        
+000092           (NAME(CICS.&LPAR..V&VERSION..&CICS..DFHINTRA) -              
+000093            VOLUME(&DISCO)                     -                        
+000094            NONINDEXED                         -                        
+000095            CONTROLINTERVALSIZE(4096)          -                        
+000091  DEFINE  CLUSTER                              -                        
+000092           (NAME(CICS.&LPAR..V&VERSION..&CICS..DFHINTRA) -              
+000093            VOLUME(&DISCO)                     -                        
+000094            NONINDEXED                         -                        
+000095            CONTROLINTERVALSIZE(4096)          -                        
+000096            RECORDSIZE(4089,4089)              -                        
+000097            SHAREOPTION(2 3))                  -                        
+000098            DATA(CYL(03  01))                                           
+000099                                                                        
+000100  /*---------------------------------------------*/                     
+000101  /*  Def.  Local-Catalog                        */                     
+000102  /*---------------------------------------------*/                     
+000103  DEFINE CLUSTER                              -                         
+000104           (NAME(CICS.&LPAR..V&VERSION..&CICS..DFHLCD) -                
+000103  DEFINE CLUSTER                              -                         
+000104           (NAME(CICS.&LPAR..V&VERSION..&CICS..DFHLCD) -                
+000105            VOLUME(&DISCO)                    -                         
+000106            INDEXED                           -                         
+000107            REUSE                             -                         
+000108            FREESPACE(10 10)                  -                         
+000109            SHAREOPTION(2))                   -                         
+000110            DATA(KEYS(52 0)                   -                         
+000111                 RECORDSIZE(70 2041)          -                         
+000112                 CONTROLINTERVALSIZE(2048)    -                         
+000113                 CYL(03  01))                 -                         
+000114            INDEX(CYL(01  01)                                           
+000115                                                                        
+000116  /*---------------------------------------------*/                     
+000117  /*  Def.  Global-Catalog                       */                     
+000118  /*---------------------------------------------*/                     
+000119  DEFINE CLUSTER                              -                         
+000120           (NAME(CICS.&LPAR..V&VERSION..&CICS..DFHGCD) -                
+000121            VOLUME(&DISCO)                    -                         
+000122            INDEXED                           -                         
+000123            FREESPACE(10 10)                  -                         
+000124            REUSE                             -                         
+000125            SHAREOPTIONS(2))                  -                         
+000126            DATA(CYL(03  01)                  -                         
+000127                 KEYS(52 0)                   -                         
+000128                 RECORDSIZE(4089,32760)       -                         
+000129                 CONTROLINTERVALSIZE(32768))  -                         
+000130           INDEX(CYL(01  01))                                            
+000131                                                                         
+000132  /*---------------------------------------------*/                      
+000133  /*  Def.  Local-Request-Queue                  */                      
+000134  /*---------------------------------------------*/                      
+000135  DEFINE  CLUSTER                            -                           
+000136           (NAME(CICS.&LPAR..V&VERSION..&CICS..DFHLRQ) -                 
+000137            INDEXED                          -                           
+000138            LOG(UNDO)                        -                           
+000139            VOLUME(&DISCO)                   -                           
+000140            RECORDSIZE(2232  2400 )          -                           
+000141            KEYS(40  00)                     -                           
+000142            FREESPACE(0  10)                 -                           
+000143            SHAREOPTIONS(2  3))              -                          
+000144            DATA(CYL(03  01)                 -                          
+000145                 CISZ(2560))                 -                          
+000146            INDEX(CYL(01  01))                                          
+000147                                                                        
+000148 /*                                                                     
+000149 //*------------------------------------------------------------------* 
+000150 //*  Initialize CICS Local Catalog                                     
+000151 //*------------------------------------------------------------------* 
+000152 //INITLCD     EXEC  PGM=DFHCCUTL                                       
+000153 //STEPLIB   DD DISP=SHR,DSN=DFH560.CICS.SDFHLOAD                       
+000154 //SYSPRINT  DD SYSOUT=*                  
+000155 //DFHLCD    DD DISP=SHR,DSN=CICS.&LPAR..V&VERSION..&CICS..DFHLCD       
+000156 //*------------------------------------------------------------------* 
+000157 //*  Initialize CICS Global Catalog                                    
+000158 //*------------------------------------------------------------------* 
+000159 //INITGCD     EXEC  PGM=DFHRMUTL                                       
+000160 //STEPLIB   DD DISP=SHR,DSN=DFH560.CICS.SDFHLOAD                       
+000161 //SYSPRINT  DD SYSOUT=*                                                
+000162 //DFHGCD    DD DISP=SHR,DSN=CICS.&LPAR..V&VERSION..&CICS..DFHGCD       
+000163 //SYSIN     DD *                                                       
+000164  SET_AUTO_START=AUTOINIT                                               
+000165 /*                                                                     
+000166 //*------------------------------------------------------------------* 
+000167 //*                        ---  FIN  ---                             *  
+000168 //*------------------------------------------------------------------*  
+****** **************************** Bottom of Data ****************************
+
+
++++++++++++++++++++++++++
+
+
+VIEW       CICS.CLONE.LYB(CLON$CSD) - 01.01                Columns 00001 00072
+Command ===>                                                  Scroll ===> CSR 
+****** ***************************** Top of Data *****************************
+000001 //CLON$CSD       JOB  CLASS=A,NOTIFY=&SYSUID                           
+000002 //*                                                                    
+000003 //*    /*JOBPARM     S=S01W                                            
+000004 //*                                                                    
+000005 //*------------------------------------------------------------------* 
+000006 //*                                                                    
+000007 //       EXPORT  SYMLIST=(CLONA,COMO)                                  
+000008 //*                                                                    
+000009 //       SET     CLONA=DFH560.CICS.DFHCSD                              
+000010 //       SET     COMO=CICS.S0W1.V560.DFHCSD                            
+000011 //*                                                                    
+000012 //*==================================================================* 
+000013 //*   0j0:   Se  debe  establecer  previamente:                      * 
+000014 //*                                                                  * 
+000015 //*   /$T  JOBCLASS(A),SYSSYM=ALLOW                                  * 
+000016 //*==================================================================* 
+000017 //*                                                                    
+000018 //*                                                                    
+000019 //*------------------------------------------------------------------* 
+000020 //*   Clona  el  CSD   V-560.                                        * 
+000021 //*------------------------------------------------------------------* 
+000022 //CLONA       EXEC  PGM=ADRDSSU,REGION=0M                              
+000023 //SYSPRINT  DD SYSOUT=*                                                
+000024 //SYSIN     DD *,SYMBOLS=JCLONLY                                       
+000025                                                                        
+000026  COPY  DATASET(INCLUDE(                                       -        
+000027                        &CLONA                                 -        
+000028                       )                                       -        
+000029                       )                                       -        
+000030        RENAMEU(                                               -        
+000031                (&CLONA,                                       -        
+000032                 &COMO)                                        -        
+000033                )                                              -        
+000034        TOL(ENQF)             SPHERE    OPT(4)                          
+000035                                                                        
+000036 /*                                                                     
+000037 //*------------------------------------------------------------------* 
+000038 //*                        ---  FIN  ---                             * 
+000039 //*------------------------------------------------------------------*  
+****** **************************** Bottom of Data ****************************
+
+
+++++++++++++++++++++++++++++++++++
+
+
+
+VIEW       CICS.CLONE.LYB(CLON$EQA) - 01.02                Columns 00001 0007
+Command ===>                                                  Scroll ===> CSR
+****** ***************************** Top of Data ****************************
+000001 //CLON$EQA       JOB  CLASS=A,NOTIFY=&SYSUID                          
+000002 //*                                                                   
+000003 //*    /*JOBPARM     S=S01W                                           
+000004 //*                                                                   
+000005 //*------------------------------------------------------------------*
+000006 //*                                                                   
+000007 //       EXPORT  SYMLIST=(CLONA,COMO)                                 
+000008 //*                                                                   
+000009 //       SET     CLONA=DFH560.CICS.EQADPFMB                           
+000010 //       SET     COMO=CICS.S0W1.V560.CICS0001.EQADPFMB                
+000011 //*                                                                   
+000012 //*------------------------------------------------------------------*
+000013 //*   Clona  el  file:  -EQADPFMB-   (p/el  CICS0001).               *
+000014 //*------------------------------------------------------------------* 
+000015 //CLONA       EXEC  PGM=ADRDSSU,REGION=0M                              
+000016 //SYSPRINT  DD SYSOUT=*                                                
+000017 //SYSIN     DD *,SYMBOLS=JCLONLY                                       
+000018                                                                        
+000019  COPY  DATASET(INCLUDE(                                       -        
+000020                        &CLONA                                 -        
+000021                       )                                       -        
+000022                       )                                       -        
+000023        RENAMEU(                                               -        
+000024                (&CLONA,                                       -        
+000025                 &COMO)                                        -        
+000026                )                                              -        
+000027        TOL(ENQF)             SPHERE    OPT(4)                          
+000028                                                                        
+000029 /*                                                                     
+000030 //*------------------------------------------------------------------* 
+000031 //*                        ---  FIN  ---                             * 
+000032 //*------------------------------------------------------------------* 
+****** **************************** Bottom of Data ***************************
+
+
++++++++++++++++++++++++++++
+
+
+VIEW       CICS.CLONE.LYB(TEST0001) - 01.45                Columns 00001 00072
+Command ===>                                                  Scroll ===> CSR 
+****** ***************************** Top of Data *****************************
+000001 //TEST0001      JOB    NOTIFY=&SYSUID                                  
+000002 //*                                                                    
+000003 //*==================================================================* 
+000004 //*                                                                  * 
+000005 //*  TEST  de  Alocacion  de  DDs  de  una  Instancia-Cics.          * 
+000006 //*                                                                  * 
+000007 //*==================================================================* 
+000008 //*                                                                    
+000009 //*                                                                    
+000010 //*------------------------------------------------------------------* 
+000011 //*                                                                  * 
+000012 //*------------------------------------------------------------------* 
+000013 //*                                                                    
+000014 //*==================================================================*
+000015 //*   -CICS000N-                                                     *
+000016 //*==================================================================*
+000017 //*                                                                   
+000018 //*                                                                   
+000019 //*------------------------------------------------------------------*
+000020 //*                                                                   
+000021 //*------------------------------------------------------------------*
+000022 //*                                                                  *
+000023 //*                                                                  *
+000024 //*------------------------------------------------------------------*
+000025 //*                                                                   
+000026 //*==================================================================*
+000027 //*  Ejercicio  de  Clonacion.                                       *
+000028 //*==================================================================*
+000029 //*                                                                   
+000030 //*                                                                   
+000031 //*------------------------------------------------------------------*
+000032 //*  A partir  de  aqui, copiamos el arranque de la Instancia-Cics,  *
+000033 //*    de:   USER.Z25B.PROCLIB.                                      *
+000034 //*                                                                  *
+000035 //*  0J0:  Cambiar  -DFHSIP-  por  -IEFBR14-                         *
+000036 //*                                                                  *
+000037 //*------------------------------------------------------------------*
+000038 //*                                                                   
+000039 //*==================================================================*
+000040 //*  Ejercicio  de  Clonacion.                                       *
+000041 //*==================================================================*
+000042 //*                                                                   
+000043 //*                                                                   
+000044 //*------------------------------------------------------------------*
+000045 //*                                                                   
+000046 //*           *------------------------------------------------------*
+000047 //*           *  (Fin de la  insercion).                             *
+000048 //*           *------------------------------------------------------*
+000049 //*                                                                    
+000050 //       PEND                                                          
+000051 //*                                                                    
+000052 //*------------------------------------------------------------------* 
+000053 //*                                                                  * 
+000054 //*------------------------------------------------------------------* 
+000055 //TESTEA      EXEC   PROC=CICS0002                                     
+000056 //                                                                     
+000057 //*==================================================================* 
+000058 //*                        ---  END  ---                             * 
+000059 //*==================================================================* 
+****** **************************** Bottom of Data ***************************
+
+
++++++++++++++++++++++++++++++++
+
+
+VIEW              USER.Z25B.PROCLIB                     Row 0000001 of 0000003 
+Command ===>                                                  Scroll ===> PAGE 
+           Name     Prompt       Size   Created          Changed          ID   
+_________ CICS0001 *Viewed        106  2023/12/01  2023/12/05 11:59:06  IBMUSER
+_________ CICS0002                106  2023/12/07  2023/12/07 14:37:21  EZZATTA
+_________ DY00ADMZ                                                             
+          **End**                                                              
+                                                                               
+                                                                               
+                                                                               
+ ++++++++++++++++++++++++++++++
+
+
+
+VIEW       USER.Z25B.PROCLIB(CICS0001) - 01.09             Columns 00001 00072 
+Command ===>                                                  Scroll ===> CSR  
+****** ***************************** Top of Data ******************************
+000001 //*                                                                     
+000002 //*==================================================================*  
+000003 //*  Ejercicio  de  Clonacion.                                       *  
+000004 //*==================================================================*  
+000005 //*                                                                     
+000006 //*                                                                     
+000007 //*------------------------------------------------------------------*  
+000008 //*                                                                     
+000009 //CICS0001    PROC     LPAR=S0W1,                                       
+000010 //*                                                                     
+000011 //             VERSION=V560,                                            
+000012 //             CICS=CICS0001                                            
+000013 //*                                                                     
+000014 //*------------------------------------------------------------------* 
+000015 //*  Mensaje:  -DFHSI1502I-  (indica el tipo de arranque que tuvo).  * 
+000016 //*            -DFHSI1517-   (indica si cics ya posee control).      * 
+000017 //*------------------------------------------------------------------* 
+000018 //CICSV560    EXEC  PGM=DFHSIP,REGION=0M,TIME=NOLIMIT,                 
+000019 //             PARM='START=COLD,SYSIN'                                 
+000020 //*           *------------------------------------------------------* 
+000021 //*           *                                                      * 
+000022 //*           *------------------------------------------------------* 
+000023 //STEPLIB   DD DISP=SHR,DSN=DFH560.CICS.SDFHAUTH                       
+000024 //          DD DISP=SHR,DSN=DFH560.CPSM.SEYUAUTH                       
+000025 //          DD DISP=SHR,DSN=DFH560.SDFHLIC                             
+000026 //*           *------------------------------------------------------* 
+000027 //*           *                                                      * 
+000028 //*           *------------------------------------------------------* 
+000029 //***DFHRPL    DD DISP=SHR,DSN=CICS.S01W.V560.TABLOAD                  
+000030 //*                                                                    
+000031 //DFHRPL    DD DISP=SHR,DSN=DFH560.CICS.SDFHLOAD                       
+000032 //          DD DISP=SHR,DSN=DFH560.CPSM.SEYULOAD                       
+000033 //          DD DISP=SHR,DSN=CEE.SCEECICS                               
+000034 //          DD DISP=SHR,DSN=CEE.SCEERUN2                               
+000035 //          DD DISP=SHR,DSN=CEE.SCEERUN                                
+000036 //          DD DISP=SHR,DSN=CSQ920.SCSQANLE                            
+000037 //          DD DISP=SHR,DSN=CSQ920.SCSQCICS                            
+000038 //          DD DISP=SHR,DSN=CSQ920.SCSQAUTH                            
+000039 //          DD DISP=SHR,DSN=TCPIP.SEZATCP                              
+000040 //          DD DISP=SHR,DSN=SYS1.MIGLIB                                
+000041 //          DD DISP=SHR,DSN=SYS1.SIEAMIGE                              
+000042 //          DD DISP=SHR,DSN=ISM330.SEQAMOD                             
+000043 //          DD DISP=SHR,DSN=DFH560.EQAIVP.LOAD                         
+000044 //*                                                                    
+000045 //***          DD DISP=SHR,DSN=CICS.S0W1.ADLAB.LOAD                    
+000046 //*           *------------------------------------------------------* 
+000047 //*           *  (por  Debug-Tool).                                  * 
+000048 //*           *------------------------------------------------------* 
+000049 //EQADPFMB  DD DISP=SHR,DSN=CICS.&LPAR..&VERSION..&CICS..EQADPFMB      
+000050 //*           *------------------------------------------------------* 
+000051 //*           *                                                      * 
+000052 //*           *------------------------------------------------------* 
+000053 //SYSIN     DD DISP=SHR,DSN=CICS.S0W1.V560.SYSIN(&CICS)                
+000054 //*           *------------------------------------------------------* 
+000055 //*           *  TS  -  TD                                           * 
+000056 //*           *------------------------------------------------------* 
+000057 //DFHTEMP   DD DISP=SHR,DSN=CICS.&LPAR..&VERSION..&CICS..DFHTEMP       
+000058 //DFHINTRA  DD DISP=SHR,DSN=CICS.&LPAR..&VERSION..&CICS..DFHINTRA      
+000059 //*                                                                    
+000060 //DFHAUXT   DD DISP=SHR,DSN=CICS.&LPAR..&VERSION..&CICS..DFHAUXT,      
+000061 //             DCB=BUFNO=5                                             
+000062 //DFHBUXT   DD DISP=SHR,DSN=CICS.&LPAR..&VERSION..&CICS..DFHBUXT,      
+000063 //             DCB=BUFNO=5                                             
+000064 //*           *------------------------------------------------------* 
+000065 //*           *  DFHTABLE                                            * 
+000066 //*           *------------------------------------------------------* 
+000067 //DFHTABLE  DD DISP=SHR,DSN=CICS.&LPAR..&VERSION..TABSRCE              
+000068 //*           *------------------------------------------------------* 
+000069 //*           *                                                      * 
+000070 //*           *------------------------------------------------------* 
+000071 //DFHLCD    DD DISP=SHR,DSN=CICS.&LPAR..&VERSION..&CICS..DFHLCD        
+000072 //DFHGCD    DD DISP=SHR,DSN=CICS.&LPAR..&VERSION..&CICS..DFHGCD        
+000073 //DFHLRQ    DD DISP=SHR,DSN=CICS.&LPAR..&VERSION..&CICS..DFHLRQ        
+000074 //*                                                                    
+000075 //DFHDMPA   DD DISP=SHR,DSN=CICS.&LPAR..&VERSION..&CICS..DFHDMPA       
+000076 //DFHDMPB   DD DISP=SHR,DSN=CICS.&LPAR..&VERSION..&CICS..DFHDMPB        
+000077 //*           *------------------------------------------------------*  
+000078 //DFHCXRF   DD SYSOUT=*                                                 
+000079 //LOGUSR    DD SYSOUT=*,DCB=(DSORG=PS,RECFM=V,BLKSIZE=136)              
+000080 //CEEMSG    DD SYSOUT=*                                                 
+000081 //CEEOUT    DD SYSOUT=*                                                 
+000082 //*                                                                     
+000083 //MQMMSG    DD SYSOUT=*                                                 
+000084 //*           *------------------------------------------------------*  
+000085 //*           *  -MSGUSR-   lo genera dynamicamente.                 *  
+000086 //*           *------------------------------------------------------*  
+000087 //*                                                                     
+000088 //*           *------------------------------------------------------*  
+000089 //*           *  TDQ  Extra; p/definir Transacciones, a ser          *  
+000090 //*           *       arrancadas  Automaticamente, (en los AORes).   *  
+000091 //*           *------------------------------------------------------*  
+000092 //***TDQ$STAR  DD DISP=SHR,                                             
+000093 //***             DSN=CICS.&LPAR..VERSION..&CICS..TDQ.STARTQ.START      
+000094 //*           *------------------------------------------------------*  
+000095 //*           *  TERM.-SEQ.                                          *  
+000096 //*           *------------------------------------------------------*  
+000097 //CARDIN    DD DISP=SHR,DSN=CICS.&LPAR..&VERSION..CARDIN(&CICS)         
+000098 //PRINTER   DD SYSOUT=*,DCB=BLKSIZE=121                                 
+000099 //*           *------------------------------------------------------*  
+000100 //*           *                                                      * 
+000101 //*           *------------------------------------------------------* 
+000102 //***EYUPARM   DD DISP=SHR,                                            
+000103 //***             DSN=CICS.&LPAR..&VERSION..SYSIN.CTRL$MGR(&CICS)      
+000104 //*------------------------------------------------------------------* 
+000105 //*                        ---  FIN  ---                             * 
+000106 //*------------------------------------------------------------------* 
+****** **************************** Bottom of Data ***************************
+
+
+
++++++++++++++++++++++++++++++++
+
+
+                                                                              
+                                                                              
+
+
+                                                                                               

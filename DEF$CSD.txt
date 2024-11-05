@@ -1,0 +1,116 @@
+DEF$CSD
+
+
+ BROWSE    CICS.CLONE.LYB(DEF$CSD) - 01.12          Line 0000000000 Col 0
+ Command ===>                                                  Scroll ===
+********************************* Top of Data ***************************
+//DEF$CSD      JOB    NOTIFY=&SYSUID                                     
+//*                                                                      
+//*   /*JOBPARM   S=S0W1                                                 
+//*                                                                      
+//*==================================================================*   
+//*  Generacion de -CSD-  para:  CICS.....                           *   
+//*==================================================================*   
+//*                                                                      
+//*                                                                      
+//*------------------------------------------------------------------*   
+//*                                                                      
+//       EXPORT  SYMLIST=(LPAR,VERSION,DISCO,LISTA)                      
+//*                                                                      
+//       SET     LPAR=S0W1                                               
+//       SET     VERSION=560                                             
+//       SET     DISCO=B5USR1                                            
+//       SET     LISTA=L$0001 
+//       SET     LISTA=L$0001                                          
+//*                                                                    
+//*------------------------------------------------------------------* 
+//*                                                                    
+//*                                                                    
+//*                                                                    
+//*------------------------------------------------------------------* 
+//*  Delete  previos  del  CSD.                                      * 
+//*------------------------------------------------------------------* 
+//DELET       EXEC  PGM=IDCAMS                                         
+//SYSPRINT  DD SYSOUT=*                                                
+//SYSIN     DD *,SYMBOLS=JCLONLY                                       
+                                                                       
+ DELETE   CICS.&LPAR..V&VERSION..DFHCSD                                
+ SET      MAXCC=0                                                      
+                                                                       
+/*                                                                     
+//*------------------------------------------------------------------* 
+//*------------------------------------------------------------------*   
+//*  Define  el  -CSD-                                               *   
+//*------------------------------------------------------------------*   
+//DEFCSD      EXEC  PGM=IDCAMS                                           
+//SYSPRINT  DD SYSOUT=*                                                  
+//SYSIN     DD *,SYMBOLS=JCLONLY                                         
+                                                                         
+         DEF CLUSTER(NAME(CICS.&LPAR..V&VERSION..DFHCSD)             -   
+                   IXD                                               -   
+                   RECORDSIZE(200 2000)                              -   
+                   FREESPACE(5 5)                                    -   
+                   VOLUME(&DISCO)  SHR(2))                           -   
+              DATA(KEYS(22  0)                                       -   
+                   CYL(05  01))                                      -   
+              INDEX(CYL(01  01))                                         
+                                                                         
+/*                                                                       
+//*------------------------------------------------------------------*   
+//*------------------------------------------------------------------*   
+//*  Inicializa  el  CSD  nuevo.                                     *   
+//*------------------------------------------------------------------*   
+//INITCSD     EXEC  PGM=DFHCSDUP                                         
+//STEPLIB   DD DISP=SHR,DSN=DFH560.CICS.SDFHLOAD                         
+//DFHCSD    DD DISP=SHR,DSN=CICS.&LPAR..V&VERSION..DFHCSD                
+//SYSUT1    DD UNIT=SYSDA,SPACE=(1024,(100,100))                         
+//SYSPRINT  DD SYSOUT=*                                                  
+//SYSIN     DD *                                                         
+  INITIALIZE                                                             
+/*                                                                       
+//*------------------------------------------------------------------*   
+//*  Llegando  hasta  aqui, por el momento.                          *   
+//*------------------------------------------------------------------*   
+//                                                                       
+//                                                                       
+//                                                                       
+//                                                                       
+//                                                                       
+//                                                                       
+//*------------------------------------------------------------------*   
+//*  Crea    el  Grupo:   -G$NOLOGG-                                 *   
+//*------------------------------------------------------------------*   
+//CREA        EXEC  PGM=DFHCSDUP,REGION=0M                               
+//STEPLIB   DD DISP=SHR,DSN=DFH560.CICS.SDFHLOAD                         
+//DFHCSD    DD DISP=SHR,DSN=CICS.&LPAR..V&VERSION..&CICS..DFHCSD         
+//SYSPRINT  DD SYSOUT=*                                                  
+//SYSIN     DD *                                                         
+*                                                                        
+DEFINE  JOURNALMODEL(NLOGS)  GROUP(G$NOLOGG)                             
+        JOURNALNAME(*)       TYPE(DUMMY)                                 
+*                                                                        
+//*------------------------------------------------------------------*   
+//*  Crea    la  LISTa:   -L$CICS..-                                 *   
+//*------------------------------------------------------------------*   
+//GEN$LIST    EXEC  PGM=DFHCSDUP,REGION=0M                               
+//GEN$LIST    EXEC  PGM=DFHCSDUP,REGION=0M                                  
+//STEPLIB   DD DISP=SHR,DSN=DFH560.CICS.SDFHLOAD                            
+//DFHCSD    DD DISP=SHR,DSN=CICS.&LPAR..V&VERSION..&CICS..DFHCSD            
+//SYSPRINT  DD SYSOUT=*                                                     
+//SYSIN     DD *,SYMBOLS=JCLONLY                                            
+*                                                                           
+   ADD    GROUP(G$NOLOGG)     LIST(&LISTA)                                  
+   ADD    GROUP(DFHTERMC)     LIST(&LISTA)                                  
+*                                                                           
+/*                                                                          
+//*------------------------------------------------------------------*      
+//*                        ---  FIN  ---                             *      
+//*------------------------------------------------------------------*      
+******************************** Bottom of Data ****************************
+
+
+
+
+
+
+                                           

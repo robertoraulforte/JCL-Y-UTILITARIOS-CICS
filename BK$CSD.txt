@@ -1,0 +1,39 @@
+BK$CSD
+
+
+ BROWSE    CICS.CLONE.LYB(BK$CSD) - 01.02           Line 0000000000 Col 
+ Command ===>                                                  Scroll ==
+********************************* Top of Data **************************
+//BK$CSD      JOB  NOTIFY=&SYSUID                                       
+//*                                                                     
+//*------------------------------------------------------------------*  
+//*                                                                     
+//       EXPORT  SYMLIST=(FECHA,HORA)                                   
+//*                                                                     
+//       SET     FECHA=BK&LYYMMDD                                       
+//       SET     HORA=H&LHHMMSS                                         
+//*                                                                     
+//*------------------------------------------------------------------*  
+//*  Resguardo/Bakup  de:   -CSD-                                    *  
+//*------------------------------------------------------------------*  
+//BAKUP       EXEC  PGM=ADRDSSU,REGION=0M                               
+//SYSPRINT  DD SYSOUT=*                                                 
+//SYSIN     DD *,SYMBOLS=JCLONLY                                        
+                                                                        
+ COPY  DATASET(INCLUDE(                                       -         
+                       CICS.S0W1.V560.DFHCSD                  -            
+                      )                                       -            
+                      )                                       -            
+       RENAMEU(                                               -            
+               (CICS.S0W1.V560.DFHCSD,                        -            
+                CICS.S0W1.V560.DFHCSD.&FECHA..&HORA)          -            
+               )                                              -            
+       TOL(ENQF)             SPHERE                                        
+                                                                           
+/*                                                                         
+//*------------------------------------------------------------------*     
+//*                        ---  FIN  ---                             *     
+//*------------------------------------------------------------------*     
+******************************** Bottom of Data ***************************
+
+

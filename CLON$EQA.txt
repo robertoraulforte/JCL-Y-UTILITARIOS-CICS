@@ -1,0 +1,43 @@
+
+CLON$EQA
+
+
+ --------------------------------------------------------------------------
+ BROWSE    CICS.CLONE.LYB(CLON$EQA) - 01.02         Line 0000000000 Col 001
+ Command ===>                                                  Scroll ===> 
+********************************* Top of Data *****************************
+//CLON$EQA       JOB  CLASS=A,NOTIFY=&SYSUID                               
+//*                                                                        
+//*    /*JOBPARM     S=S01W                                                
+//*                                                                        
+//*------------------------------------------------------------------*     
+//*                                                                        
+//       EXPORT  SYMLIST=(CLONA,COMO)                                      
+//*                                                                        
+//       SET     CLONA=DFH560.CICS.EQADPFMB                                
+//       SET     COMO=CICS.S0W1.V560.CICS0001.EQADPFMB                     
+//*                                                                        
+//*------------------------------------------------------------------*     
+//*   Clona  el  file:  -EQADPFMB-   (p/el  CICS0001).               *     
+//*------------------------------------------------------------------*     
+//CLONA       EXEC  PGM=ADRDSSU,REGION=0M                                  
+//SYSPRINT  DD SYSOUT=*                                                    
+//SYSIN     DD *,SYMBOLS=JCLONLY                                           
+                                                                         
+ COPY  DATASET(INCLUDE(                                       -          
+                       &CLONA                                 -          
+                      )                                       -          
+                      )                                       -          
+       RENAMEU(                                               -          
+               (&CLONA,                                       -          
+                &COMO)                                        -          
+               )                                              -          
+       TOL(ENQF)             SPHERE    OPT(4)                            
+                                                                         
+/*                                                                       
+//*------------------------------------------------------------------*   
+//*                        ---  FIN  ---                             *   
+//*------------------------------------------------------------------*   
+******************************** Bottom of Data *************************
+
+

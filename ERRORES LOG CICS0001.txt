@@ -1,0 +1,192 @@
+ERRORES LOG CICS0001 - 2023.01.03
+
+DFHPA1950I CICS0001 READING FEATURE TOGGLE FILE: featuretoggle.properties       
+DFHPA1958I CICS0001 FILE DOES NOT CONTAIN FEATURE TOGGLES.                      
+DFHPA1950I CICS0001 READING FEATURE TOGGLE FILE: CICS0001/featuretoggle.properties
+DFHPA1959I CICS0001 REGION FEATURE TOGGLE FILE COULD NOT BE FOUND:  702         
+ /usr/lpp/cicsts/cicsts56/dfhconfig/CICS0001/featuretoggle.properties           
+
+
+DFHSM0126I CICS0001 Transaction isolation is not active.
+
+
+IEC161I 056-084,CICS0001,CICS0001,DFHGCD,,,  736 ---->visam abierto o terminó anormal
+CICS.S0W1.V560.CICS0001.DFHGCD
+IEC161I 056-084,CICS0001,CICS0001,DFHTEMP,,,  754             
+IEC161I CICS.S0W1.V560.CICS0001.DFHTEMP,                      
+IEC161I 056-084,CICS0001,CICS0001,DFHINTRA,,,  765             
+IEC161I CICS.S0W1.V560.CICS0001.DFHINTRA,                      
+IEC161I CICS.S0W1.V560.CICS0001.DFHINTRA.DATA,USERCAT.Z25B.USER
+
+
+IEC161I 062-086,CICS0001,CICS0001,DFHGCD,,,  738   ------>pudo abrir correctamente un vsam que no se había cerrado adecuadamente          
+IEC161I CICS.S0W1.V560.CICS0001.DFHGCD,                      
+IEC161I CICS.S0W1.V560.CICS0001.DFHGCD.DATA,USERCAT.Z25B.USER
+IEC161I 062-086,CICS0001,CICS0001,DFHTEMP,,,  755             
+IEC161I CICS.S0W1.V560.CICS0001.DFHTEMP,                      
+IEC161I CICS.S0W1.V560.CICS0001.DFHTEMP.DATA,USERCAT.Z25B.USER
+IEC161I 062-086,CICS0001,CICS0001,DFHINTRA,,,  766             
+IEC161I CICS.S0W1.V560.CICS0001.DFHINTRA,                      
+IEC161I CICS.S0W1.V560.CICS0001.DFHINTRA.DATA,USERCAT.Z25B.USER
+
+
+DFHFC0208I CICS0001  787                                          
+LSR pool 1 is being built dynamically by CICS because all of the  
+necessary parameters have not been supplied. Either there is no   
+LSRPOOL definition or it is incomplete. The following are not     
+defined:  'CI SIZE' 'STRINGS' 'MAXKEYLENGTH'. A delay is possible.
+DFHFC0961 CICS0001  788                                           
+01/02/2024 20:22:06 CICS0001 Calculation of LSR pool 1 parameters 
+incomplete. Filename DFHDBFK has no DSNAME. 
+DFHFC0208I CICS0001  804                                          
+LSR pool 1 is being built dynamically by CICS because all of the  
+necessary parameters have not been supplied. Either there is no   
+LSRPOOL definition or it is incomplete. The following are not     
+defined:  'CI SIZE' 'STRINGS' 'MAXKEYLENGTH'. A delay is possible. 
+
+
+DFHFC0952 CICS0001  802                                         
+Dynamic allocation of Non-RLS file EZACACHE failed. Return code 
+X'0004',X'1708' in module DFHFCFS. 
+
+
+EZY1220E 01/02/24 20:22:06 READ FAILURE ON CONFIGURATION FILE, PHASE= C1 EIBRESP2= 80 
+
+ DFHFC0979 01/02/2024 20:22:08 CICS0001 LSR pool 1 parameters incomplete for file EZACACHE because the DSNAME specified in the                   
+            resource definition could not be found on the VSAM catalog. VSAM has returned code 0014 in R15
+
+
+
+****************
+
+
+
+
+TAREA :
+
+
+BUSCAR : Filename DFHDBFK has no DSNAME
+
+
+buscar en que grupo esta este archivo para aclarar en la proxima
+
+
+BUSCAR : file EZACACHE failed. 
+
+
+
+EZY1220E : AL PARECER ESTE ERROR ES PORQUE FALLA EL EZACACHE.
+
+
+ESTO EN UN CICS DE PRODUCCION REAL NO DEBERIA PASAR.
+
+
+
+*************
+
+
+EN UN CICS TIENEN QUE CORRER APLICACIONES DE NEGOCIOS.
+
+SUPONGAMOS QUE TENGAMOS UN CICS QUE TIENE ACCESO A OTROS CICS.
+
+MUESTRA UN GRAFICO DE FORMAS DE COMUNICACION ENTRE LOS CICS.  
+
+
+
+
+PEDIR COPIA DE LAS IMAGENES.
+
+
+***************
+
+
+
+USO DE SYS :
+
+
+PERMITE REALIZAR MEDICIONES DE PERFORMANCE.
+
+CON PF1 SE PUEDE OBTENER MAS INFORMACION DE CADA CASO.
+
+
+SPOOL : SI ESTA CERCANO AL 100% SE CLAVA LA MAQUINA.
+
+PAGERATE : TAMBIEN ANALIZA COMO PAGINA ENTRE LA MEMORIA VIRTUAL Y LA REAL.
+
+SE PUEDE VER CUANDO SE HIZO IPL.
+
+
+ESTO SE PUEDE CUSTOMIZAR Y DEJAR LA COLUMNAS IMPORTANTES.
+
+
+
+
+*****************
+
+
+
+USO DE LAS LIBRERIAS : DECLARAR EN APF.
+
+
+LAS LIBRERIAS DE LA VERSION 6.10 SOPORTAN EL USO DE LA VERSION 5.60.
+
+
+HAY QUE DECLARAR LAS BIBLIOTECAS EN APF. ASI LOS MODULOS PUEDEN DETERMINAR CUALES SON LAS PRIVILEGIADAS.
+
+SE LE PIDE A LOS ADMINISTRADORES DEL SISTEMA QUE DECLAREN LAS NUEVAS BIBLIOTECAS DEL SISTEMA.
+
+
+POR EJEMPLO, DEBERIAN PEDIR QUE SE DECLAREN LAS LIBRERIAS DE LA VERSION 6.10.
+
+
+TAMBIEN SE DEBEN DEFINIR LAS LIBRERIAS DEL CICS.
+
+
+
+PROCESO :
+
+
+APF
+
+LINK
+
+DFH
+
+
+DECLARACIONES EN LA LPA :
+
+
+F DFH
+
+
+SUPERVISOR CALL :   SVC
+
+
+LAS SVC ESTAN NUMERADAS. INDICA DONDE SE ESTAN CARGANDO Y CUAL ES EL MODULO QUE LAS REPRESNTA.
+
+
+
+SIT=6$
+
+
+CICSSVC=216    ES LA SVC POR DEFAULT
+
+
+HAY QUE PEDIR A SISTEMA OPERATIVO PARA QUE NOS ASIGNE EL NUEVO NUMERO. 
+HAY UN UTILITARIO PARA CAMBIAR EL SVC.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                     
